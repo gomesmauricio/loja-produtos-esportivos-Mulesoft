@@ -1,0 +1,40 @@
+autodiscovery:
+  id: ""
+
+listener:
+ port: "8081"
+ timeout: "30000"
+
+request:
+  host: "http://base-de-dados-academia.us-e1.cloudhub.io"
+  
+  consultaProdutoEstoque:
+    path: "/produtosEstoque"
+    wait: "3000"
+    retry: "0"
+  
+  saldoCaixa:
+    path: "/caixa"  
+    wait: "3000"
+    retry: "0"
+    
+  consultaProdutosfornecedor:
+    nike:
+      path: "/produtosNike"
+      wait: "3000"
+      retry: "0"
+      
+    adidas:
+      path: "/produtosAdidas"
+      wait: "3000"
+      retry: "0"
+    
+    umbro:
+      path: "/produtosUmbro"
+      wait: "3000"
+      retry: "0"
+    
+    puma:
+      path: "/produtosPuma"
+      wait: "3000"
+      retry: "0"  
