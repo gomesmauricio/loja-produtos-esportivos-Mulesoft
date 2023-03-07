@@ -5,12 +5,12 @@
 	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd">
-	<http:request-config name="HTTP_Request_base_artigos_esportivos" doc:name="HTTP Request configuration" doc:id="ef3afddc-3433-4e78-8a44-a29b659bed31" >
-		<http:request-connection host="${request.host}" />
-	</http:request-config>
 	<configuration-properties doc:name="Configuration properties" doc:id="280e6ba1-1989-465e-b111-bf3155fdbe4e" file="properties/${env}.yaml" />
 	<global-property doc:name="Global Property" doc:id="63d18e62-819e-420a-a168-a818eedc6e23" name="env" value="local" />
 	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="147b9c39-1d1a-4e8f-a93c-6b8d705c210a" >
-		<http:listener-connection host="0.0.0.0" port="8081" />
+		<http:listener-connection host="0.0.0.0" port="${listener.port}" readTimeout="${listener.timeout}"/>
 	</http:listener-config>
+	<http:request-config name="HTTP_Request_base_dados" doc:name="HTTP Request configuration" doc:id="94548728-57b1-4f02-b95f-b2873e087c54" >
+		<http:request-connection host="${request.host}"/>
+	</http:request-config>
 </mule>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd ">
+<mule xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd ">
     <apikit:config name="produtos-esportivos-config" api="resource::31efb79b-0815-471a-8d04-cb5c6017aa84:produtos-esportivos:1.0.1:raml:zip:produtos-esportivos.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
     <flow name="produtos-esportivos-main">
-        <http:listener path="/api/*" config-ref="HTTP_Listener_config">
+        <http:listener path="/*" config-ref="HTTP_Listener_config">
             <http:response statusCode="#[vars.httpStatus default 200]">
                 <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
             </http:response>
@@ -121,35 +121,8 @@ output application/json
         </error-handler>
     </flow>
     <flow name="get:\estoque\produto:produtos-esportivos-config">
-        <ee:transform>
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-[
-  {
-    tipo: "camisa",
-    marca: "adidas",
-    quantidade: 5,
-    produto: {
-      tamanho: "G",
-      cor: "branco",
-      valor: 89.90
-    }
-  }, 
-  {
-    tipo: "camisa",
-    marca: "adidas",
-    quantidade: 5,
-    produto: {
-      tamanho: "G",
-      cor: "branco",
-      valor: 89.90
-    }
-  }
-]]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+        <set-variable value="#[%dw 2.0&#10;output application/java&#10;---&#10;{&#10;	&quot;Protocolo&quot;: &quot;HTTP&quot;,&#10;	&quot;Method&quot;: &quot;GET&quot;,&#10;	&quot;Host&quot;: Mule::p('request.host'),&#10;	&quot;Path&quot;: Mule::p('request.consultaProdutoEstoque.path'),&#10;	&quot;Endpoint&quot;: Mule::p('request.consultaProdutoEstoque.path')&#10;}]" doc:name="dataSend" doc:id="89106b10-ff64-4cf9-8ae3-d4f9efa5becb" variableName="dataSend"/>
+		<flow-ref doc:name="ListaProdutos" doc:id="ea978c54-6435-4521-9a29-df40fc47c477" name="consultaEstoque"/>
     </flow>
     <flow name="get:\fornecedor\produto:produtos-esportivos-config">
         <ee:transform>
